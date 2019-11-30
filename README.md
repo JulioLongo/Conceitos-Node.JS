@@ -1,5 +1,11 @@
-# Conceitos-Node.JS
+# 🚀 Introdução ao Node.js: Conceitos.
 
-CRUD - Cread, read, update, delete de um Array acessando rotas\
-Utilizando Node.js
+Código do primeiro módulo do Bootcamp GoStack
+CRUD - Cread, Read, Update, Delete de um Array pré-definido através do acesso de rotas
 
+## ☕ Instalação e execução
+
+1. Faça um clone desse repositório;
+1. Entre na pasta clonada;
+1. Rode yarn para instalar as dependências;
+1. Rode yarn dev para iniciar o servidor.

@@ -11,7 +11,7 @@ server.use(express.json());
 
 const users = ["Julio", "Nath", "Jaime"];
 
-//Middleware
+// Middleware
 server.use((req, res, next) => {
   console.time("Request");
   console.log(`Método: ${req.method}; URL: ${req.url}`);
@@ -20,7 +20,7 @@ server.use((req, res, next) => {
   console.timeEnd("Request");
 });
 
-function checkUserExists(req, res, next) {
+function checkNameJson(req, res, next) {
   if (!req.body.name) {
     return res.status(400).json({ error: "User name is required" });
   }
@@ -28,8 +28,9 @@ function checkUserExists(req, res, next) {
   return next();
 }
 
-function checkUserInArray(req, res, next) {
+function checkIndexExists(req, res, next) {
   const user = users[req.params.index];
+
   if (!user) {
     return res.status(400).json({ error: "User does not exist" });
   }
@@ -37,17 +38,20 @@ function checkUserInArray(req, res, next) {
   return next();
 }
 
+// Retorna Array users
 server.get("/users/", (req, res) => {
   return res.json(users);
 });
 
-server.get("/users/:index", checkUserInArray, (req, res) => {
+// Retorna user pelo Index
+server.get("/users/:index", checkIndexExists, (req, res) => {
   const { index } = req.params;
 
   return res.json(users[index]);
 });
 
-server.post("/users/", checkUserExists, (req, res) => {
+// Insere novo user no Array
+server.post("/users/", checkNameJson, (req, res) => {
   const { name } = req.body;
 
   users.push(name);
@@ -55,7 +59,8 @@ server.post("/users/", checkUserExists, (req, res) => {
   res.json(users);
 });
 
-server.put("/users/:index", checkUserInArray, checkUserExists, (req, res) => {
+// Atualizar o nome pelo index do array.
+server.put("/users/:index", checkIndexExists, checkNameJson, (req, res) => {
   const { index } = req.params;
   const { name } = req.body;
 
@@ -63,7 +68,8 @@ server.put("/users/:index", checkUserInArray, checkUserExists, (req, res) => {
   res.json(users);
 });
 
-server.delete("/users/:index", checkUserInArray, (req, res) => {
+// Deletar o nome pelo index do array
+server.delete("/users/:index", checkIndexExists, (req, res) => {
   const { index } = req.params;
 
   users.splice(index, 1);
@@ -71,5 +77,5 @@ server.delete("/users/:index", checkUserInArray, (req, res) => {
   //res.send();
 });
 
-//ouvir no localhost na porta
+// Ouvir no localhost na porta
 server.listen(3000);
